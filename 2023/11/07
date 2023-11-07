@@ -1,0 +1,65 @@
+2023/11/07 사전캠프 4주차 화요일
+
+오늘 배운 것 :
+
+1.코드테스트 풀기 
+    1.1 시저암호 계산하기
+        1.1.1 코드
+
+         func solution(_ s:String, _ n:Int) -> String {
+            var result = ""
+            let abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            for i in s {
+                if let alpha = abc.firstIndex(of: i) {
+                    let alphaSet = abc.index(alpha, offsetBy: n % 26)
+                    result.append(abc[alphaSet])
+                } else if let beta = abc.lowercased().firstIndex(of: i) {
+                    let betaSet = abc.lowercased().index(beta, offsetBy: n % 26)
+                    result.append(abc[betaSet])
+                } else if i == " " {
+                    result.append(" ")
+                }
+            }
+            return result
+        }
+
+        1.1.2 코드 리뷰
+
+         알파벳 소문자, 대문자로 이루어진 입력값과 숫자로 이루어진 정수 입력값이 주어지면, 숫자만큼 알파벳을 뒤로 이동시킨 값을 반환하는 함수를 작성해야 한다.
+         변수 result를 빈 String으로 선언해놓고, 대문자 알파벳 26자가 담긴 상수 abc를 생성한다.
+         그리고 for in 구문을 사용해서 i를 s에 대입하고, 조건문을 사용하여 s가 대문자, 소문자, 공백일 경우에 대해서 처리한다.
+         우선 대문자일 경우, alpha라는 상수를 만들어서 알파벳 모음 abc안에서 해당 문자를 찾게 하고, alphaSet이라는 상수를 만들어 상수 abc에 대해 index()함수를 사용, abc안의 해당 문자가 저장 된 alpha를 기준으로 하며, 
+         n % 26만큼의 거리를 이동시킨다.
+         그런다음 result에 abc[alphaSet]을 추가한다.
+         소문자도 lowercased()함수를 사용하여 대문자와 똑같이 처리해주고, 공백의 경우 그대로 공백을 추가해준다. 그런다음 결과를 반환하면 완성.
+       
+        1.1.3 개인적인 리뷰
+
+         처음 문제를 봤을 때 새로운 함수들이 등장할거라는 내 예상과는 다르게 구면인 함수들만 사용이 되었다.
+         알파벳을 정리해놓은, 또는 비슷한 부류의 표준함수가 존재 할거라고 생각했었는데 직접 만들어서 사용해야 했다.
+         x.firstIndex(of: y)함수는, x의 안에서 y를 찾는 함수다. x.index(y, offsetBy: z)는 x의 안에서 y를 기준으로 z만큼 이동한 요소를 나타내는 함수.
+         alphaSet상수를 만들고 그걸 result에 append하는 과정에서 append(alphaSet)을 그대로 써도 괜찮지 않을까 생각했는데 컴파일 오류가 발생했고, 찾아보니 append(x)함수는 x의 타입이 Character(문자)여야 된다고 한다.
+         alphaSet상수가 도출해내는 값은 String(문자열)이기 때문에 해당 코드처럼 abc[alphaSet]을 써서 해당 문자를 추출해내거나, result.append(Character(alphaSet))을 써서 타입 변환을 시켜줘야 한다.
+         소문자를 처리하는 코드도 대문자와 동일하지만, 원한다면 소문자 모음의 알파벳 상수도 만들어서 사용할 수 있다.
+         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
