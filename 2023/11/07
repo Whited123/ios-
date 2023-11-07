@@ -41,7 +41,72 @@
          alphaSet상수를 만들고 그걸 result에 append하는 과정에서 append(alphaSet)을 그대로 써도 괜찮지 않을까 생각했는데 컴파일 오류가 발생했고, 찾아보니 append(x)함수는 x의 타입이 Character(문자)여야 된다고 한다.
          alphaSet상수가 도출해내는 값은 String(문자열)이기 때문에 해당 코드처럼 abc[alphaSet]을 써서 해당 문자를 추출해내거나, result.append(Character(alphaSet))을 써서 타입 변환을 시켜줘야 한다.
          소문자를 처리하는 코드도 대문자와 동일하지만, 원한다면 소문자 모음의 알파벳 상수도 만들어서 사용할 수 있다.
-         
+
+    1.2 숫자 문자열과 영단어
+        1.2.1 코드 
+         import Foundation
+
+          func solution(_ s:String) -> Int {
+            var result = ""
+            var word = ""
+            let dict: [String:String] = [
+              "one" : "1",
+              "two" : "2",
+              "three" : "3",
+              "four" : "4",
+              "five" : "5",
+              "six" : "6",
+              "seven" : "7",
+              "eight" : "8",
+              "nine" : "9",
+              "zero" : "0",
+          ]
+          for i in s {
+              if i.isNumber {
+                  result.append(i)
+              } else {
+                  word.append(i)
+                  if let words = dict[word] {
+                      result.append(words)
+                      word = ""
+                  }
+              }
+         }
+          return Int(result)!
+      }
+
+        1.2.2 문제 리뷰 
+          입력값으로 숫자와 영어로 구성된 String타입의 s가 주어지면, 숫자는 그대로 반환하고 영어는 숫자로 변환한뒤 반환해야하는 문제다.
+          우선 result와 word라는 빈 문자열의 변수를 생성한 후, 각각의 영단어에 대응되는 숫자를 적어놓은 Dictionary, dict 상수를 만든다.
+          그런다음 반복문을 써서 입력값s를 순회하며, 만약 i가 숫자인경우에는 그대로 result에 추가하고, 영단어인 경우 만들어둔 빈 문자열 word에 해당 문자를 넣는다.
+          그런다음 word에 들어가있는 영어문자를 조합하여 만들어진 단어가 dict의 요소와 일치하면, result에 대응되는 숫자를 더한 뒤 word를 빈 문자열로 초기화한다.
+          반복문이 끝나고 result를 정수로 치환한 뒤 언래핑을 해주면 완성.
+
+        1.2.3 개인적인 리뷰
+          코드테스트중 딕셔너리가 처음 쓰인 문제같다.(이전 문제에서도 쓰려면 쓸 수 있었겠지만..?)
+          딕셔너리를 사용해서 대응되는 숫자나 문자 등을 묶어서 다룰 수 있기 때문에 굉장히 간편한 기능인거같다.
+          딕셔너리를 써도 숫자는 그대로 더하면 그만이지만, 문자같은 경우엔 갯수도 다르기 때문에 어떻게 처리해야 할지 고민을 했던거 같다.
+          우선 문자 하나하나를 검사하기 때문에 빈 문자열을 만들어서 문자를 다 집어넣고, if구문을 써서 dict에 있는 단어와 일치하게 되면 대응되는 숫자를 추출해내고 문자열을 초기화하는 식으로 구성을 했다.
+          마지막엔 result를 정수화하고 혹시모를 nil값에 대비하여 언래핑을 해주면 끝
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
