@@ -1,0 +1,51 @@
+2023 / 11 / 08
+
+오늘 배운 것 :
+
+1. 코드 테스트
+    1.1 k번째 수 정렬
+        1.1.1 코드
+            import Foundation
+
+               func solution(_ array:[Int], _ commands:[[Int]]) -> [Int] {
+                    var result:[Int] = []
+                    for x in commands {
+                         let i = x[0]
+                         let j = x[1]
+                         let k = x[2]
+                         let array1 = array.index(array.startIndex, offsetBy: i - 1)
+                         let array2 = array.index(array.startIndex, offsetBy: j - 1)
+                         let setArray = array[array1...array2].sorted()
+                         let answer = setArray.index(setArray.startIndex, offsetBy: k - 1)
+                         result.append(setArray[answer])
+                     }
+                     return result
+               }
+
+        1.1.2 문제 리뷰
+             정수로 이루어진 배열 array와 정수배열들을 갖고있는 배열인 2중배열 commands가 입력값으로 주어지고, commands안의 정수는 3개이고 각각 i, j, k라고 했을때 array의 i번째 요소에서 j번째 요소까지를 추출해낸후 오름차순으로
+             정렬하고, 정렬된 배열의 k번째 요소를 반환해야하는 함수를 만들어야한다.
+             우선 result 변수를 정수타입의 빈 배열로 설정, for in구문으로 commands를 순회하며 commands안의 배열안에 있는 세개의 정수를 각각 i, j, k로 지정한다.
+             그런다음 array1, array2라는 상수를 만들고 array의 요소들중 i - 1번째 요소, j - 1번째 요소를 지정해 놓은뒤에 setArray상수에 둘을 조합하고 sorted()함수를 사용하여 정렬시킨다.
+             그리고 setArray의 k - 1번째에 있는 요소를 추출 한 뒤 result에 추가해주면 완성.
+
+        1.1.3 개인적인 리뷰
+             문제를 언뜻 보면 복잡해보이지만 이전 테스트에 나왔던 함수들과 계산식을 숙지하고 있다면 어렵지 않게 풀 수 있는 복습 문제다.
+             for in구문, index(x, offsetBy: y), sorted()등 이전에 배웠던 함수들을 활용하여 문제를 풀면서 해당 함수와 구문들에 대해 확실한 공부가 되었다.
+             2중배열에 대한 루프문은 튜플 함수를 사용하면 오류가 발생하는데, 예를 들어 for (i, j, k) in 이중배열 {}로 코드를 작성했을 때 i, j, k가 이중배열([[1,2,3], [4,5,6], [7,8,9]])안의 배열들을 가리키는 경우와,
+             배열안의 정수를 가리키는 2가지 경우가 존재하기 때문에 원하는 경우를 확실히 선언해 줄 필요가 있다!
+             offsetBy: x - 1은 문제에서 가리키는 1번째, 2번째, ... 는 코드상에서 $0, %1...로 표현해야하기에 - 1을 붙히는걸 잊지말자. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
