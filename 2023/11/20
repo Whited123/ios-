@@ -76,6 +76,56 @@ func solution(_ k:Int, _ m:Int, _ score:[Int]) -> Int {
             사실 k는 함수에서 내가 만든 함수에서는 다룰일이 없고, score를 내림차순으로 만든이유는 score의 값과 m의 값이 항상 나눠떨어지는 것은 아니기 때문에 고품질의 사과를 우선포장하여 이득을 최대화 하였다.
             min()함수를 사용했을때 옵셔널값에대해서도 빼먹지 말고 다루도록 하자.
 
+    1.3 수포자
+        1.3.1 코드
+            import Foundation
+
+func solution(_ answers:[Int]) -> [Int] {
+    var result = [Int]()
+    var result1 = 0
+    var result2 = 0
+    var result3 = 0
+    let suPoZa1 = [1,2,3,4,5]
+    let suPoZa2 = [2,1,2,3,2,4,2,5]
+    let suPoZa3 = [3,3,1,1,2,2,4,4,5,5]
+    for i in 0..<answers.count {
+        if answers[i] == suPoZa1[i % suPoZa1.count] {
+            result1 += 1
+        }
+        if answers[i] == suPoZa2[i % suPoZa2.count] {
+            result2 += 1
+        }
+        if answers[i] == suPoZa3[i % suPoZa3.count] {
+            result3 += 1
+        }
+    }
+    let biGyo = max(result1, result2, result3)
+    if biGyo == result1 {result.append(1)}
+    if biGyo == result2 {result.append(2)}
+    if biGyo == result3 {result.append(3)}
+    return result
+}
+
+        1.3.2 문제 리뷰
+            수포자 세명이 있는데 각각 고유한 패턴으로 문제들을 찍으려고 한다. 정답 입력값 answers가 정수배열로 주어질 때 누가 더 많이 맞췄는지를 정수배열로 반환하면 된다.
+            우선 최종결과를 담을 정수배열 result를 만들어주고, 셋의 점수를 계산할 정수 변수 result1,2,3을 만든다.
+            그런다음 셋의 고유한 패턴을 배열로 만들어주고 반복문을 실행하여 answers의 인덱스와 수포자들의 패턴 인덱스를 비교한다.
+            비교해서 맞을 경우 1점을 더하고, 반복문이 끝나면 biGyo상수를 만들어 셋 중 가장 높은 점수를 선정하고, 조건문을 사용해서 result배열에다가 해당 수포자의 번호를 기입해주면 완성.
+
+        1.3.3 개인적인 리뷰
+            처음 반복되는 배열에 대해 어떻게 코드를 짤까 고민을 했었는데, Array함수와 flatMap함수를 이용해서 몇 차례 반복을 설정하였으나 코드가 난잡해질뿐더러 필요하지 않았다.
+            대신 반복문에서 조건문을 사용할 때 i % suPoZa.count를 이용하여 나머지를 이용한 반복을 할수 있었고 훨씬 깔끔해지는 코드를 볼 수 있었다.
+            또한 반복문을 설정할때 for i in answers라고 설정을 해둬서 정답의 값 자체를 가져와 버려서 suPoZa랑 비교하기가 힘들어져 코드가 제대로 작동하지 못하는 실수도 하였다..
+            결국 기존의 계산식을 활용하여 문제를 풀었지만, 해당 문제처럼 반복을 설정하는 방법과 Array, flatMap에대해서 알 수 있는 문제였다.
+
+
+
+
+
+
+
+
+
 
 
 
