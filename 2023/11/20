@@ -118,7 +118,48 @@ func solution(_ answers:[Int]) -> [Int] {
             또한 반복문을 설정할때 for i in answers라고 설정을 해둬서 정답의 값 자체를 가져와 버려서 suPoZa랑 비교하기가 힘들어져 코드가 제대로 작동하지 못하는 실수도 하였다..
             결국 기존의 계산식을 활용하여 문제를 풀었지만, 해당 문제처럼 반복을 설정하는 방법과 Array, flatMap에대해서 알 수 있는 문제였다.
 
+    1.4 소수 만들기
+        1.4.1 코드
+             import Foundation
 
+func soSu(_ n:Int) -> Bool {
+    if n < 2 {
+        return false
+    }
+    for i in 2..<n {
+        if n % i == 0 {
+            return false
+        } 
+    }
+    return true
+}
+
+func solution(_ nums:[Int]) -> Int {
+    var result = 0
+
+    for i in 0..<nums.count {
+        for x in i + 1..<nums.count {
+            for y in x + 1..<nums.count {
+                let triplePlus = nums[i] + nums[x] + nums[y]
+                if soSu(triplePlus) {
+                    result += 1
+                }
+            }
+        }
+    }
+
+    return result
+}
+
+        1.4.2 문제 리뷰
+             nums라는 정수로 이루어진 배열이 입력값이 될때, 정수 세개를 더해서 소수가 되는 숫자가 나오는 경우가 몇개인지 반환해야 한다.
+             soSu라는 함수를 만들어서 소수를 구하는 공식을 만들고, solution에는 삼중반복문을 사용해서 계산식을 만든다.
+             그런다음 만들어둔 함수에 계산식을 대입해 true를 반환하면 result에 +1을 해주면 완성.
+
+        1.4.3 개인적인 리뷰
+             코딩에서 소수를 구하는 방법은 여러가지가 있겠지만, 난 함수를 하나 만들고 해당함수를 2부터 n-1까지 차례대로 나눠보고, 나머지가 0이 되지않는 숫자를 찾는방법으로 구현했다.
+             본 함수에서는 이전에도 사용한적이있었던 삼중반복문을 사용하여 중복없는 계산식을 구현했다. 이전까지의 복습문제라는 느낌을 받았다.
+          
 
 
 
