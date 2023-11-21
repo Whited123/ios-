@@ -1,0 +1,30 @@
+2023 / 11 / 21
+
+오늘 배운 것:
+
+1. 코드 테스트
+    1.1 페인트 칠
+        1.1.1 코드
+            import Foundation
+
+func solution(_ n: Int, _ m: Int, _ section: [Int]) -> Int {
+    var result = 0
+    var sections = section.sorted()
+    while !sections.isEmpty {
+        let firstSection = sections[0]
+        result += 1
+        sections = sections.filter { $0 > firstSection + m - 1 }
+    }
+    return result
+}
+
+        1.1.2 문제 리뷰
+            입력값 정수 n,m 정수배열 section이 주어질때 1부터 n만큼의 크기에서 m길이의 룰러로 section안의 구역을 칠하는 최소한의 값을 찾아야한다.
+            우선 result와 sections변수를 만들어 각각 페인트칠 횟수와 변경가능한 배열로 만들어준다.
+            그런다음 반복문을 sections가 빈배열이 될때까지 실행하는데, 배열의 첫번째 요소를 검사하고 그 요소에서 m 만큼 더하고 -1한 값을 제거해주고 result를 +1해준다.
+            그런다음 result를 반환하면 완성.
+
+        1.1.3 개인적인 리뷰 
+            페인트 칠을 가장 효율적으로 하는 방법을 찾아야하는 함수를 만들어야한다.
+            간단하게 안 칠해진 구역을 담고있는 배열 section의 요소를 검사하여 해당 숫자에서 룰러인 m만큼의 크기를 빼주고, 빈 구역이 없어지면 최소한의 칠이 완성된다.
+            remove와 filter의 차이를 잘 알아두고 filter함수의 사용법과 메서드를 잘 기억해두자.
