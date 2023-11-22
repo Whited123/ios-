@@ -37,7 +37,9 @@ func solution(_ number:Int, _ limit:Int, _ power:Int) -> Int {
             reduce는 배열내의 값들을 계산하여 원하는 값을 도출해낼때 사용하고, redece()괄호안의 숫자는 기본값, result는 누적된 값을 나타내는 변수로 자동으로 갱신되며, i는 map과 같이 요소들을 나타낸다.
 
 
-
+2. gIT강의
+    GIT의 사용법에 대한 강의를 들었다. 예전에 코딩공부할때 git과 Vscode를 주력으로 썼었기때문에 대부분 다 아는내용이었다.
+    
 
 
 
