@@ -1,0 +1,73 @@
+2023 / 11 / 23
+
+오늘 배운 것:
+
+1. 코드 테스트
+    1.1 로또 번호 최소값 최대값
+        1.1.1 코드
+            import Foundation
+
+func pandokgi(_ number:Int) -> Int {
+    switch number {
+        case 6: return 1
+        case 5: return 2
+        case 4: return 3
+        case 3: return 4
+        case 2: return 5
+        default: return 6
+    }
+}
+
+func solution(_ lottos:[Int], _ win_nums:[Int]) -> [Int] {
+    var countLotto = 0
+    var countZero = 0
+    for i in lottos {
+        if i == 0 {
+            countZero += 1
+        } else if win_nums.contains(i) {
+            countLotto += 1
+        }
+    }
+    let maxRank = pandokgi(countLotto + countZero)
+    let minRank = pandokgi(countLotto)
+    return [maxRank, minRank]
+}
+
+        1.1.2 문제 리뷰
+            정수로 된 배열 lottos와 win_nums가 주어지는데, lottos와 win_nums는 임의의 1부터 45까지의 숫자 여섯개로 이루어져있고, lottos에 있는 0은 알수없는 숫자라고 할때, 당첨번호인 win_nums와 비교하여 lottos가 달성할수있는 가장 
+            높은 등수와 낮은 등수를 반환해야 한다.
+            우선 당첨된 숫자와 알수없는 숫자인 0을 셀 수있게 변수들을 할당하고, 반복문을 실행하여 lottos의 요소들을 순회한다. 만약 0이면 countZero에 1을 더하고, 당첨번호에 해당 요소가 있을경우 countLotto에 1을 더한다.
+            그런 다음 switch구문을 사용하여 경우의 수를 대응시킨 함수 pandokgi를 사용하여 각각 최고등수와 최저등수를 계산하고 이를 return해주면 완성.
+
+        1.1.3 개인적인 리뷰
+            로또 번호 몇개가 가려진 상태에서 경우의 수를 계산해내야하는 문제이다. 
+            처음에는 당첨번호에 해당 번호가 있는지 판별한 후에 반복문 두개를 써서 0을 당첨번호안에 있는 숫자로 바꾸는, Set과 subtracting을 사용해서 배열의 중복을 비교하고, 그런다음 first함수와 firstIndex(of:)를 사용해서
+            로또 번호에 있는 숫자를 가져오는 방법을 쓰려고 했지만 이는 0을 아예 대체해서 등수를 계산하는 방법은 코드가 가독성이 떨어지고 그렇게 할 필요가 없다는 걸 깨달았다.
+            맞힌 갯수와 0의 갯수를 세고 최고등수는 0이 전부 당첨일 경우, 최저는 0이 전부 틀렸을 경우를 계산하면 되기에 중복을 검사할 필요가 없었다.
+            switch함수를 사용해서 들어오는 입력값에 따라 대응 되는 경우의 수를 저장해놓는 방법을 사용했고 공부가 되었다.
+            나중에 중복을 대비해야하는 경우가 나올수 있기때문에 Set함수를 사용한것도 좋은 시도였고 switch함수에 대해 공부 할수있었기때문에 만족스러운 문제였다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
