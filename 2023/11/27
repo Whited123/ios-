@@ -1,0 +1,53 @@
+2023 / 11 / 27
+
+오늘 배운 것:
+
+1. 문법 강의 2주차 1 ~ 10
+    오늘은 계산기 만들기를 위해서 필요한 다양한 문법들을 공부했다.
+    데이터 타입(String, Int, Character, Set)등등 사전캠프와 코드카타에서 봤던 문법들의 정의를 다양하게 알 수있었고, 조건문과 반복문도 다시한번 공부하는 시간이 되었다.
+    옵셔널 값에대해 두루뭉실하게 알고있었는데 이번 기회에 자세히 알게 되었다. nil값은 여기에 아무런 값이 없다는 것을 알려주는 값이고, null값은 아무것도 없는 empty를 알려주는 값이다.
+    세트와 딕셔너리에 대해서도 알았고, switch등을 이용한 방식도 확실히 제대로 알게되었다.
+
+2. 코드테스트 
+    2.1 문자열 분리하기.
+        2.1.2 코드
+            func solution(_ s: String) -> Int {
+    var result = 0
+    var currentIndex = s.startIndex
+
+    while currentIndex < s.endIndex {
+        var countX = 0
+        var countNameozi = 0
+        let firstChar = s[currentIndex]
+        var index = currentIndex
+
+        while index < s.endIndex {
+            let currentChar = s[index]
+            
+            if currentChar == firstChar {
+                countX += 1
+            } else {
+                countNameozi += 1
+            }
+            
+            if countX == countNameozi {
+                result += 1
+                currentIndex = s.index(after: index)
+                break
+            }
+            
+            index = s.index(after: index)
+        }
+        
+        if countX != countNameozi {
+            result += 1
+            break
+        }
+    }
+    
+    return result
+}
+
+            2.2.2 문제 리뷰
+                28일에 이어서 계속 풀이를 해야겠다. 확실히 난이도 상승이 체감이 된다. 단순계산식이 아닌 여러 큼직한 계산식을 만들거나 계산식 안에서도 독립적인 변수나 상수를 만들어
+                풀이를 해야하기 때문에 시간이 걸리고 있다. 재밌다
