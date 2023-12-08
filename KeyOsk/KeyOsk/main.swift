@@ -1,3 +1,5 @@
+import Foundation
+
 protocol Menu {
     var name: String { get }
     var price: Double { get }
@@ -140,6 +142,28 @@ func calculate(in cart: Cart) -> Double {
     return cart.menus.reduce(0.0) { $0 + $1.price }
 }
 
+func paymentTime() -> Bool {
+    let date = Date()
+    let calender = Calendar.current
+    let time = calender.component(.hour, from: date)
+    
+    if time >= 23 || time < 1 {
+        return false
+    }
+    
+    return true
+}
+
+func printOrderCount() {
+    DispatchQueue.global().asyncAfter(deadline: .now() + 5) {
+        let menuCount = cart.menus.count
+        print("현재 주문 대기수: \(menuCount)")
+        printOrderCount()
+    }
+}
+
+printOrderCount()
+
 while true {
     printMainMenu()
     
@@ -158,16 +182,29 @@ while true {
                     if choice == "0" {
                         let totalPrice = calculate(in: cart)
                         print("총 가격: \(totalPrice)")
+                        print("현재 시간은 \(Date())입니다. 23시 ~ 01시까지는 주문 및 결제가 불가합니다.")
                         print("주문을 완료하려면 '0'을 입력하세요.")
-                        if let orderChoice = readLine(), orderChoice == "0" {
-                            let credit = getUserCredit()
-                            if credit >= totalPrice {
-                                print("주문이 완료되었습니다!")
-                                cart.orderSuccess()
-                            } else {
-                                print("현재 금액이 \(totalPrice - credit)만큼 부족해서 주문할 수 없습니다.")
+                            if let orderChoice = readLine(), orderChoice == "0" {
+                                let credit = getUserCredit()
+                                if credit >= totalPrice {
+                                    if paymentTime() {
+                                        cart.orderSuccess()
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                            printMainMenu()
+                                        }
+                                    } else {
+                                        print("현재 시간에는 결제가 불가능합니다.")
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                            printMainMenu()
+                                        }
+                                    }
+                                } else {
+                                    print("현재 금액이 \(totalPrice - credit)만큼 부족해서 주문할 수 없습니다.")
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                        printMainMenu()
+                                    }
+                                }
                             }
-                        }
                     }
                     else if choice == "9" {
                         break
@@ -181,6 +218,3 @@ while true {
         }
     }
 }
-
-
-
