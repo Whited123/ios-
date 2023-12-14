@@ -10,6 +10,8 @@ import UIKit
 struct Todo {
     var title: String
     var isCompleted: Bool
+    var image: UIImage?
+    var dueDate: Date?
 }
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -21,7 +23,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         todos = [
-            Todo(title: "운동하기", isCompleted: false),
+            Todo(title: "운동하기", isCompleted: false, image: nil, dueDate: Date()),
             Todo(title: "빨래하기", isCompleted: true),
             Todo(title: "설거지하기", isCompleted: false)
         ]
@@ -29,6 +31,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         todoTable.dataSource = self
         todoTable.delegate = self
         todoTable.register(UITableViewCell.self, forCellReuseIdentifier: "TodoCell")
+        
+        todoTable.rowHeight = UITableView.automaticDimension
+        todoTable.estimatedRowHeight = 60
+        todoTable.separatorStyle = .singleLine
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -40,6 +46,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let todo = todos[indexPath.row]
         cell.textLabel?.text = todo.title
+        
+        if let image = todo.image {
+            cell.imageView?.image = image
+        } else {
+            cell.imageView?.image = nil
+        }
+        
+        cell.detailTextLabel?.text = nil
+        
+        if let date = todo.dueDate {
+            let callender = DateFormatter()
+            callender.dateStyle = .medium
+            callender.timeStyle = .short
+            cell.detailTextLabel?.text = callender.string(from: date)
+        }
         
         cell.accessoryType = todo.isCompleted ? .checkmark : .none
         
