@@ -51,6 +51,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.reloadData()
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            todos.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
         @IBAction func addTodoButton(_ sender: Any) {
             let alertController = UIAlertController(title: "할일 추가하기", message: nil, preferredStyle: .alert)
             alertController.addTextField { textField in
