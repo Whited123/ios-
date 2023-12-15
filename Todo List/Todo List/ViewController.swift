@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 struct Todo {
     var title: String
@@ -24,8 +25,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Do any additional setup after loading the view.
         todos = [
             Todo(title: "운동하기", isCompleted: false, image: nil, dueDate: Date()),
-            Todo(title: "빨래하기", isCompleted: true),
-            Todo(title: "설거지하기", isCompleted: false)
+            Todo(title: "빨래하기", isCompleted: true, image: nil, dueDate: Date(timeIntervalSinceNow: 3600)),
+            Todo(title: "설거지하기", isCompleted: false, image: nil, dueDate: Date(timeIntervalSinceNow: 7200))
         ]
         
         todoTable.dataSource = self
@@ -53,14 +54,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.imageView?.image = nil
         }
         
-        cell.detailTextLabel?.text = nil
+        var content = cell.defaultContentConfiguration()
+        content.text = todo.title
+        content.secondaryText = todo.dueDate.map { DateFormatter.localizedString(from: $0, dateStyle: .medium, timeStyle: .short) } ?? ""
         
-        if let date = todo.dueDate {
-            let callender = DateFormatter()
-            callender.dateStyle = .medium
-            callender.timeStyle = .short
-            cell.detailTextLabel?.text = callender.string(from: date)
-        }
+        cell.contentConfiguration = content
         
         cell.accessoryType = todo.isCompleted ? .checkmark : .none
         
@@ -85,13 +83,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 textField.placeholder = "할일을 입력하세요."
             }
             
+            let datePickerTextField = UITextField()
+            datePickerTextField.placeholder = "시간을 입력하세요."
+            let datePicker = UIDatePicker()
+            datePicker.datePickerMode = .dateAndTime
+            datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
+            datePickerTextField.inputView = datePicker
+            alertController.view.addSubview(datePickerTextField)
+            
             let addAction = UIAlertAction(title: "추가", style: .default) { [weak self] _ in
-                guard let self = self else { return }
-                if let text = alertController.textFields?.first?.text, !text.isEmpty {
-                    let newTodo = Todo(title: text, isCompleted: false)
+                guard let self = self,
+                    let text = alertController.textFields?.first?.text, !text.isEmpty,
+                      let date = datePickerTextField.inputView as? UIDatePicker else { return }
+                    
+                let newTodo = Todo(title: text, isCompleted: false, image: nil, dueDate: date.date)
                     self.todos.append(newTodo)
                     self.todoTable.reloadData()
-                }
             }
             let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
             
@@ -99,6 +106,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             alertController.addAction(cancelAction)
             
             present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func datePickerValueChanged(sender: UIDatePicker) {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        
+        let datePickerTextField = sender.superview?.subviews.compactMap { $0 as? UITextField }.first
+        datePickerTextField?.text = formatter.string(from: sender.date)
     }
 }
 
