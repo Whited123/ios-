@@ -6,12 +6,10 @@
 //
 
 import UIKit
-import PhotosUI
 
 struct Todo {
     var title: String
     var isCompleted: Bool
-    var image: UIImage?
     var dueDate: Date?
 }
 
@@ -24,9 +22,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         todos = [
-            Todo(title: "운동하기", isCompleted: false, image: nil, dueDate: Date()),
-            Todo(title: "빨래하기", isCompleted: true, image: nil, dueDate: Date(timeIntervalSinceNow: 3600)),
-            Todo(title: "설거지하기", isCompleted: false, image: nil, dueDate: Date(timeIntervalSinceNow: 7200))
+            Todo(title: "운동하기", isCompleted: false, dueDate: Date()),
+            Todo(title: "빨래하기", isCompleted: true, dueDate: Date(timeIntervalSinceNow: 3600)),
+            Todo(title: "설거지하기", isCompleted: false, dueDate: Date(timeIntervalSinceNow: 7200))
         ]
         
         todoTable.dataSource = self
@@ -48,12 +46,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let todo = todos[indexPath.row]
         cell.textLabel?.text = todo.title
         
-        if let image = todo.image {
-            cell.imageView?.image = image
-        } else {
-            cell.imageView?.image = nil
-        }
-        
         var content = cell.defaultContentConfiguration()
         content.text = todo.title
         content.secondaryText = todo.dueDate.map { DateFormatter.localizedString(from: $0, dateStyle: .medium, timeStyle: .short) } ?? ""
@@ -72,43 +64,50 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            todos.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.performBatchUpdates({
+                self.todos.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }, completion: nil)
         }
     }
-    
-        @IBAction func addTodoButton(_ sender: Any) {
-            let alertController = UIAlertController(title: "할일 추가하기", message: nil, preferredStyle: .alert)
-            alertController.addTextField { textField in
-                textField.placeholder = "할일을 입력하세요."
-            }
-            
-            let datePickerTextField = UITextField()
-            datePickerTextField.placeholder = "시간을 입력하세요."
-            let datePicker = UIDatePicker()
-            datePicker.datePickerMode = .dateAndTime
-            datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
-            datePickerTextField.inputView = datePicker
-            alertController.view.addSubview(datePickerTextField)
-            
-            let addAction = UIAlertAction(title: "추가", style: .default) { [weak self] _ in
-                guard let self = self,
-                    let text = alertController.textFields?.first?.text, !text.isEmpty,
-                      let date = datePickerTextField.inputView as? UIDatePicker else { return }
-                    
-                let newTodo = Todo(title: text, isCompleted: false, image: nil, dueDate: date.date)
-                    self.todos.append(newTodo)
-                    self.todoTable.reloadData()
-            }
-            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-            
-            alertController.addAction(addAction)
-            alertController.addAction(cancelAction)
-            
-            present(alertController, animated: true, completion: nil)
+
+    @IBAction func addTodoButton(_ sender: Any) {
+        let alertController = UIAlertController(title: "할일 추가하기", message: nil, preferredStyle: .alert)
+        alertController.addTextField { textField in
+            textField.placeholder = "할일을 입력하세요."
+        }
+        
+        let datePickerTextField = UITextField()
+        datePickerTextField.placeholder = "시간을 입력하세요."
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .dateAndTime
+        datePicker.addTarget(self, action: #selector(datePickerBuild), for: .valueChanged)
+        datePickerTextField.inputView = datePicker
+        alertController.view.addSubview(datePickerTextField)
+        
+        alertController.textFields?.last?.inputView = datePicker
+        
+        let addAction = UIAlertAction(title: "추가", style: .default) { [weak self] _ in
+            guard let self = self,
+                  let text = alertController.textFields?.first?.text, !text.isEmpty,
+                  let date = datePickerTextField.inputView as? UIDatePicker else { return }
+                
+            let newTodo = Todo(title: text, isCompleted: false, dueDate: date.date)
+            self.todos.append(newTodo)
+            self.todoTable.performBatchUpdates({
+                self.todoTable.insertRows(at: [IndexPath(row: self.todos.count - 1, section: 0)], with: .fade)
+            }, completion: nil)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alertController.addAction(addAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
+
     
-    @objc func datePickerValueChanged(sender: UIDatePicker) {
+    @objc func datePickerBuild(sender: UIDatePicker) {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .short
