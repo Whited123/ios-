@@ -9,71 +9,32 @@ import UIKit
 import CoreData
 
 class ViewController: UIViewController {
-    var persistentContainer: NSPersistentContainer? {
-        (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
-    }
     
+    @IBAction func unwindToFirst(_ unwindSegue: UIStoryboardSegue) {}
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        deleteData()
-        getData()
-    }
-
-    // 데이터 쓰기 (Create)
-    func saveData() {
-        guard let context = self.persistentContainer?.viewContext else { return }
-        
-        let newCar = Car(context: context)
-        
-        newCar.id = UUID()
-        newCar.name = "benz"
-        
-        try? context.save()
     }
     
-    // 데이터 읽기 (Read)
-    func getData() {
-        guard let context = self.persistentContainer?.viewContext else { return }
+    @IBAction func tappedButton(_ sender: Any) {
+//        //present
+//        //nextViecon 가져오기
+//        guard let nextVC = self.storyboard?.instantiateViewController(identifier: "nextViewController") else { return }
+//        
+//        // 프레젠테이션 스타일 지정
+//        self.modalPresentationStyle = .fullScreen
+//        
+//        // 넥뷰컨 프레젠트 하기
+//        self.present(nextVC, animated: true)
         
-        let request = Car.fetchRequest()
-        let cars = try? context.fetch(request)
+        //푸쉬 방법
+        //nextViecon 가져오기
+        guard let nextVC = self.storyboard?.instantiateViewController(identifier: "nextViewController") else { return }
         
-        print(cars)
-    }
-    
-    // 데이터 수정 (Update)
-    func updateData() {
-        guard let context = self.persistentContainer?.viewContext else { return }
-        
-        let request = Car.fetchRequest()
-        guard let cars = try? context.fetch(request) else { return }
-        
-        let filteredCard = cars.filter { $0.name == "benz" }
-        
-        for car in filteredCard {
-            car.name = "tesla"
-        }
-        
-        try? context.save()
-    }
-    
-    // 데이터 삭제 (Delete)
-    func deleteData() {
-        guard let context = self.persistentContainer?.viewContext else { return }
-        
-        let request = Car.fetchRequest()
-        guard let cars = try? context.fetch(request) else { return }
-        
-        let filteredCard = cars.filter { $0.name == "tesla" }
-        
-        for car in filteredCard {
-            context.delete(car)
-        }
-        
-        try? context.save()
+        // nextViewController를 푸쉬하는 코드
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
