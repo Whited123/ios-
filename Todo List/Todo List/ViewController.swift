@@ -18,11 +18,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBOutlet weak var todoTable: UITableView!
     var todos:[Todo] = []
+    var imageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadTodos()
         // Do any additional setup after loading the view.
+        
+        setupImageView()
+        loadCat()
         
         todoTable.dataSource = self
         todoTable.delegate = self
@@ -31,6 +35,45 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         todoTable.rowHeight = UITableView.automaticDimension
         todoTable.estimatedRowHeight = 60
         todoTable.separatorStyle = .singleLine
+    }
+    
+    func loadCat() {
+        guard let url = URL(string: "https://api.thecatapi.com/v1/images/search") else { return }
+        
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+            guard let self = self,
+                  error == nil,
+                  let data = data,
+                  let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]],
+                  let imageURLString = json.first?["url"] as? String,
+                  let imageURL = URL(string: imageURLString),
+                  let imageData = try? Data(contentsOf: imageURL),
+                  let image = UIImage(data: imageData) else { return }
+            
+            DispatchQueue.main.async {
+                self.imageView.image = image
+            }
+        }
+        task.resume()
+    }
+    
+    func setupImageView() {
+        imageView = UIImageView(frame: view.bounds)
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        view.addSubview(imageView)
+        fetchImage()
+        hideImage()
+    }
+    
+    func hideImage() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
+            UIView.animate(withDuration: 1.0, animations: {
+                self?.imageView.alpha = 0.0
+            }, completion: { _ in
+                self?.imageView.removeFromSuperview()
+            })
+        }
     }
     
     func loadTodos() {
@@ -43,6 +86,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         } else {
             setData()
         }
+    }
+    
+    func fetchImage() {
+        guard let url = URL(string: "https://spartacodingclub.kr/css/images/scc-og.jpg") else { return }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+            guard let self = self,
+                  error == nil,
+                  let data = data,
+                  let image = UIImage(data: data) else { return }
+            
+            DispatchQueue.main.async {
+                self.imageView.image = image
+            }
+        }.resume()
     }
     
     func setData() {
