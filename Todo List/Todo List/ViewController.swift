@@ -19,6 +19,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var todoTable: UITableView!
     var todos:[Todo] = []
     var imageView: UIImageView!
+    @IBOutlet weak var refreshButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         setupImageView()
         loadCat()
+        setupRefresh()
         
         todoTable.dataSource = self
         todoTable.delegate = self
@@ -35,6 +37,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         todoTable.rowHeight = UITableView.automaticDimension
         todoTable.estimatedRowHeight = 60
         todoTable.separatorStyle = .singleLine
+    }
+    
+    func setupRefresh() {
+        refreshButton.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
     }
     
     func loadCat() {
@@ -52,6 +58,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             DispatchQueue.main.async {
                 self.imageView.image = image
+                self.imageView.alpha = 1.0
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                UIView.animate(withDuration: 1.0) {
+                    self.imageView.alpha = 0.0
+                }
             }
         }
         task.resume()
@@ -67,13 +80,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func hideImage() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
-            UIView.animate(withDuration: 1.0, animations: {
-                self?.imageView.alpha = 0.0
-            }, completion: { _ in
-                self?.imageView.removeFromSuperview()
-            })
-        }
+        UIView.animate(withDuration: 1.0, delay: 3.0, options: [], animations: { [weak self] in
+            self?.imageView.alpha = 0.0
+        }, completion: { [weak self] _ in
+            self?.imageView.isHidden = true
+        })
     }
     
     func loadTodos() {
@@ -259,7 +270,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         present(alertController, animated: true, completion: nil)
     }
     
-    
     @objc func datePickerBuild(sender: UIDatePicker) {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -268,5 +278,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let datePickerTextField = sender.superview?.subviews.compactMap { $0 as? UITextField }.first
             datePickerTextField?.text = formatter.string(from: sender.date)
         
+    }
+    
+    @objc func refreshButtonTapped() {
+        self.imageView.alpha = 1.0
+        self.imageView.isHidden = false
+        loadCat()
     }
 }

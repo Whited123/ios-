@@ -3,4 +3,54 @@
    uuid = "C1E504D1-361E-4362-8AB1-1258A8B77311"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "192CC1B5-1B62-42EC-97FF-730BCF3464BF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Todo List/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
+            landmarkName = "addTodoButton(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "192CC1B5-1B62-42EC-97FF-730BCF3464BF - ce52e432f36be0e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Todo_List.ViewController.addTodoButton(Any) -&gt; ()"
+                  moduleName = "Todo List"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/t2023-m0041/Documents/GitHub/ios-/Todo%20List/Todo%20List/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "263"
+                  endingLineNumber = "263"
+                  offsetFromSymbolStart = "1452">
+               </Location>
+               <Location
+                  uuid = "192CC1B5-1B62-42EC-97FF-730BCF3464BF - 97bf257453973d22"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (__C.UIAlertAction) -&gt; () in Todo_List.ViewController.addTodoButton(Any) -&gt; ()"
+                  moduleName = "Todo List"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/t2023-m0041/Documents/GitHub/ios-/Todo%20List/Todo%20List/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "262"
+                  endingLineNumber = "262"
+                  offsetFromSymbolStart = "2656">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
