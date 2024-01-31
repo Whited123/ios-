@@ -38,12 +38,28 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             profileViewButton.topAnchor.constraint(equalTo: profileButton.bottomAnchor, constant: 20),
             profileViewButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            profileButton.widthAnchor.constraint(equalToConstant: 100),
-            profileButton.heightAnchor.constraint(equalToConstant: 50)
+            profileViewButton.widthAnchor.constraint(equalToConstant: 100),
+            profileViewButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         profileViewButton.backgroundColor = .systemBlue
         profileViewButton.setTitleColor(.white, for: .normal)
+        
+        let coreDataButton = UIButton(type: .system)
+        coreDataButton.setTitle("CRUD", for: .normal)
+        coreDataButton.addTarget(self, action: #selector(coreDataView), for: .touchUpInside)
+        coreDataButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(coreDataButton)
+        
+        NSLayoutConstraint.activate([
+            coreDataButton.topAnchor.constraint(equalTo: profileViewButton.bottomAnchor, constant: 20),
+            coreDataButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            coreDataButton.widthAnchor.constraint(equalToConstant: 100),
+            coreDataButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        coreDataButton.backgroundColor = .systemBlue
+        coreDataButton.setTitleColor(.white, for: .normal)
     }
     
     @objc func openProfile() {
@@ -55,6 +71,11 @@ class ViewController: UIViewController {
         let profileVC = ProfileViewController()
         profileVC.userName = "김 동영"
         profileVC.userAge = 25
+        self.present(profileVC, animated: true, completion: nil)
+    }
+    
+    @objc func coreDataView() {
+        let profileVC = CoreDataController()
         self.present(profileVC, animated: true, completion: nil)
     }
 }
