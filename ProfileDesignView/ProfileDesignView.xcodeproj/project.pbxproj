@@ -14,6 +14,7 @@
 		7F0B62AC2B6A811A002CBC71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F0B62AB2B6A811A002CBC71 /* Assets.xcassets */; };
 		7F0B62AF2B6A811A002CBC71 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F0B62AD2B6A811A002CBC71 /* LaunchScreen.storyboard */; };
 		7F0B62B72B6A82F9002CBC71 /* ProfileDesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0B62B62B6A82F9002CBC71 /* ProfileDesignViewController.swift */; };
+		7F0B62B92B6ABB7A002CBC71 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0B62B82B6ABB7A002CBC71 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		7F0B62AE2B6A811A002CBC71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7F0B62B02B6A811A002CBC71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7F0B62B62B6A82F9002CBC71 /* ProfileDesignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDesignViewController.swift; sourceTree = "<group>"; };
+		7F0B62B82B6ABB7A002CBC71 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				7F0B62AD2B6A811A002CBC71 /* LaunchScreen.storyboard */,
 				7F0B62B02B6A811A002CBC71 /* Info.plist */,
 				7F0B62B62B6A82F9002CBC71 /* ProfileDesignViewController.swift */,
+				7F0B62B82B6ABB7A002CBC71 /* ProfileViewController.swift */,
 			);
 			path = ProfileDesignView;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 			files = (
 				7F0B62A72B6A8119002CBC71 /* ViewController.swift in Sources */,
 				7F0B62A32B6A8119002CBC71 /* AppDelegate.swift in Sources */,
+				7F0B62B92B6ABB7A002CBC71 /* ProfileViewController.swift in Sources */,
 				7F0B62B72B6A82F9002CBC71 /* ProfileDesignViewController.swift in Sources */,
 				7F0B62A52B6A8119002CBC71 /* SceneDelegate.swift in Sources */,
 			);
