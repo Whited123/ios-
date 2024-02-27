@@ -14,7 +14,7 @@
         <attribute name="place" optional="YES" attributeType="String"/>
         <attribute name="placeAlarm" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="timeAlarm" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="title" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="todo" inverseEntity="Category"/>
     </entity>
 </model>
